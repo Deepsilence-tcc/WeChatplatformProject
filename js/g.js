@@ -41,7 +41,26 @@ module.exports = function (opts) {
             });
 
             var content = yield xmlUtil.parseXmlAsync(data);
-            console.log(content);
+            var message = xmlUtil.formatMessage(content.xml);
+
+            console.log(message);
+            if(message.Event=='event'){
+                if(message.Event==='subscribe'){
+                    var now = new Date().getTime();
+                    that.status = 200;
+                    that.type='applicatiom/xml';
+                    that.body ='<xml>'+
+                        '<ToUserName><![CDATA['+message.FromUserName +']]></ToUserName>'+
+                        '<FromUserName><![CDATA['+message.ToUserName+']]></FromUserName>'+
+                        '<CreateTime>'+now+'</CreateTime>'+
+                        '<MsgType><![CDATA[image]]></MsgType>'+
+                        '<Image>'+
+                        '<MediaId><![CDATA[media_id]]></MediaId>'+
+                        '</Image>'+
+                        '</xml>'
+
+                }
+            }
         }
     }
 }
