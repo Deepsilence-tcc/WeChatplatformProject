@@ -26,4 +26,3 @@ var app = new Koa();
 app.use(new Generator(config.wechat));
 
 app.listen(36334);
-console.log(36334)

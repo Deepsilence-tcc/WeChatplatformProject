@@ -14,6 +14,7 @@ module.exports = function (opts) {
 
     return function *(next) {
         console.log(this.query);
+        var that = this;
         var token = opts.token
         var signature = this.query.signature
         var nonce = this.query.nonce
@@ -23,8 +24,9 @@ module.exports = function (opts) {
         var str = [token, timestamp, nonce].sort().join('')
         var sha = sha1(str)
         if(this.method=== 'GET'){
-            if (sha == signature) {
-                this.body = echostr
+            if (sha === signature) {
+                this.body = echostr+'';
+
             } else {
                 this.body = 'wrong'
             }
@@ -40,23 +42,25 @@ module.exports = function (opts) {
                 encoding:this.charset,
             });
 
+
             var content = yield xmlUtil.parseXmlAsync(data);
+            console.log(content);
+
             var message = xmlUtil.formatMessage(content.xml);
 
             console.log(message);
-            if(message.Event=='event'){
+            if(message.MsgType=='event'){
                 if(message.Event==='subscribe'){
                     var now = new Date().getTime();
                     that.status = 200;
-                    that.type='applicatiom/xml';
+                    that.type='application/xml';
                     that.body ='<xml>'+
                         '<ToUserName><![CDATA['+message.FromUserName +']]></ToUserName>'+
                         '<FromUserName><![CDATA['+message.ToUserName+']]></FromUserName>'+
                         '<CreateTime>'+now+'</CreateTime>'+
-                        '<MsgType><![CDATA[image]]></MsgType>'+
-                        '<Image>'+
+                        '<MsgType><![CDATA[text]]></MsgType>'+
                         '<MediaId><![CDATA[media_id]]></MediaId>'+
-                        '</Image>'+
+                        '<Content><![CDATA[Hi,宝宝]]></Content>'+
                         '</xml>'
 
                 }

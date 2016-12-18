@@ -16,7 +16,9 @@ exports.parseXmlAsync = function (xml) {
 
 function formatMessage(result) {
     var message ={};
-    if (typeof result=='object'){
+    console.log(typeof result);
+
+    if (typeof result==='object'){
         var keys = Object.keys(result);
         for(var i=0;i<keys.length;i++){
             var item = result[keys[i]];
@@ -29,7 +31,7 @@ function formatMessage(result) {
                 if (typeof val ==='object'){
                     message[key] = formatMessage(val);
                 }else {
-                    message[key] ===(val||'').trim();
+                    message[key] =(val||'').trim();
                 }
             }else {
                 message[key] =[];
