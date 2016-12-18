@@ -25,30 +25,29 @@ function Wechat(opts) {
                 return that.updateAccessToken();
             }
             if(that.isValidaAccessToken(data)){
-                Promise.resolve(data);
+                that.access_token = data.body.access_token;
+                that.expires_in = data.body.expires_in;
+                that.saveAccessToken(data);
+
             }else {
                 that.updateAccessToken();
             }
         })
-        .then(function (data) {
-            that.access_token = data.access_token;
-            that.expires_in = data.expires_in;
-            that.saveAccessToken(data);
-
-        })
 }
 
 Wechat.prototype.isValidaAccessToken = function (data) {
-    if(!data||!data.access_token||!data.expires_in){
+    if(!data||!data.body.access_token||!data.body.expires_in){
         return false;
     }
-    var access_token = data.access_token;
-    var expires_in = data.expires_in;
-    var now = (new Date().getTime());
+    var access_token = data.body.access_token;
+    var expires_in = data.body.expires_in;
+    var now = (new Date().getTime()-Date.parse(new Date(data.headers.date)))/1000;
+    now = Math.round(now);
     if(now<expires_in){
         return true;
     }else{
         return false;
+
     }
 }
 Wechat.prototype.updateAccessToken = function () {
