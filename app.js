@@ -10,8 +10,8 @@ var util = require('./js/libs/util');
 
 var config = {
     wechat:{
-        appID:'wx6389b6489a68b700',
-        appSecret:'9485d99152e0a8267371f0c61a0e4e32',
+        appID:'',
+        appSecret:'',
         token:'tcc0228zym',
         getAccessToken:function () {
             return util.readFileAsync(wechat_file);
