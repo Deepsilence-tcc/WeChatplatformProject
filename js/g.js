@@ -8,12 +8,11 @@ var Wechat = require('./wechat');
 var getRawBody =  require ('raw-body');
 var xmlUtil = require('./libs/xmlUtil');
 
-module.exports = function (opts) {
+module.exports = function (opts,handler) {
 
     var wechat = new Wechat(opts);
 
-    return function *(next) {
-        console.log(this.query);
+    return function* (next) {
         var that = this;
         var token = opts.token
         var signature = this.query.signature
@@ -44,27 +43,18 @@ module.exports = function (opts) {
 
 
             var content = yield xmlUtil.parseXmlAsync(data);
-            console.log(content);
 
             var message = xmlUtil.formatMessage(content.xml);
-
             console.log(message);
-            if(message.MsgType=='event'){
-                if(message.Event==='subscribe'){
-                    var now = new Date().getTime();
-                    that.status = 200;
-                    that.type='application/xml';
-                    that.body ='<xml>'+
-                        '<ToUserName><![CDATA['+message.FromUserName +']]></ToUserName>'+
-                        '<FromUserName><![CDATA['+message.ToUserName+']]></FromUserName>'+
-                        '<CreateTime>'+now+'</CreateTime>'+
-                        '<MsgType><![CDATA[text]]></MsgType>'+
-                        '<MediaId><![CDATA[media_id]]></MediaId>'+
-                        '<Content><![CDATA[Hi,宝宝]]></Content>'+
-                        '</xml>'
 
-                }
-            }
+
+            this.weixin = message;
+
+            yield handler.call(this,next);
+
+
+            wechat.replying.call(this);
+
         }
     }
 }

@@ -5,6 +5,7 @@
 var prefix ='https://api.weixin.qq.com/cgi-bin/';
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
+var util = require('./libs/xmlUtil');
 var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 var api = {
     accessToken:prefix+'token?grant_type=client_credential',
@@ -69,6 +70,18 @@ Wechat.prototype.updateAccessToken = function () {
         })
     })
 
+}
+
+Wechat.prototype.replying = function () {
+    var content = this.body;
+    console.log(content);
+    var message = this.weixin
+    console.log(message);
+    var xml = util.tpl(content,message);
+    this.status =200;
+    this.type = 'application/xml'
+    this.body = xml;
+    console.log(this.body);
 }
 module.exports = Wechat;
 

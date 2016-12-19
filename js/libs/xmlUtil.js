@@ -4,6 +4,7 @@
 'use strict'
 var xml2js = require('xml2js');
 var Promise = require('bluebird');
+var temp = require('../common/temp');
 
 exports.parseXmlAsync = function (xml) {
     return new Promise(function (resolve,reject) {
@@ -16,8 +17,6 @@ exports.parseXmlAsync = function (xml) {
 
 function formatMessage(result) {
     var message ={};
-    console.log(typeof result);
-
     if (typeof result==='object'){
         var keys = Object.keys(result);
         for(var i=0;i<keys.length;i++){
@@ -44,3 +43,22 @@ function formatMessage(result) {
     return message;
 }
 exports.formatMessage = formatMessage;
+
+exports.tpl = function (content,message) {
+    var info = {};
+    var type = 'text';
+    var fromUserName = message.FromUserName;
+    var toUserName = message.ToUserName;
+    if(Array.isArray(content)){
+        type ="news"
+    }
+    type =message.MsgType||type;
+    info.createTime = new Date().getTime();
+
+    info.msgType = type;
+    info.toUserName = fromUserName;
+    info.fromUserName = toUserName;
+    info.content = content;
+
+    return temp.compiled(info);
+}
