@@ -47,12 +47,11 @@ exports.formatMessage = formatMessage;
 exports.tpl = function (content,message) {
     var info = {};
     var type = 'text';
-    var fromUserName = message.FromUserName;
-    var toUserName = message.ToUserName;
+    var fromUserName = message.ToUserName;
+    var toUserName = message.FromUserName;
     if(Array.isArray(content)){
         type ="news"
     }
-    type =message.MsgType||type;
     info.createTime = new Date().getTime();
 
     info.msgType = type;
