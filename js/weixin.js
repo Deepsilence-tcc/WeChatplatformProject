@@ -6,8 +6,6 @@ exports.reply = function* (next) {
 
     var message = this.weixin;
 
-    console.log(message.MsgType);
-
     if(message.MsgType ==='event'){
         if(message.Event==='subscribe'){
             if(message.EventKey){
@@ -38,17 +36,18 @@ exports.reply = function* (next) {
             reply =[{
                 title:'技术改变世界',
                 description:'只是一个描述而已',
-                picUrl:''
+                picUrl:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png',
+                url:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png'
             },
                 {
                     title:'nodejs 开发微信',
                     description:'开发微信',
-                    picUrl:''
+                    picUrl:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png',
+                    url:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png'
                 }
             ]
         }
         this.body = reply;
-        console.log(this.body);
     }
     yield next;
 

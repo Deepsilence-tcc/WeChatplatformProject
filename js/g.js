@@ -45,8 +45,6 @@ module.exports = function (opts,handler) {
             var content = yield xmlUtil.parseXmlAsync(data);
 
             var message = xmlUtil.formatMessage(content.xml);
-            console.log(message);
-
 
             this.weixin = message;
 
