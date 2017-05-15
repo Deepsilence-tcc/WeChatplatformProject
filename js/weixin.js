@@ -1,6 +1,11 @@
 /**
  * Created by cong on 2016/12/18.
  */
+var config = require('../config');
+var WeChat = require('./wechat');
+
+
+var wechatApi = new WeChat(config.wechat);
 
 exports.reply = function* (next) {
 
@@ -46,7 +51,38 @@ exports.reply = function* (next) {
                     url:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png'
                 }
             ]
+        }else if (content == 5){
+
+            var data = yield wechatApi.uploadMaterial('image',__dirname +'/images/2.jpg')
+            console.log(data)
+            reply  = {
+                type:'image',
+                mediaId:data.media_id,
+            }
         }
+        else if (content == 6){
+
+            var data = yield wechatApi.uploadMaterial('image',__dirname +'/images/2.jpg')
+
+            reply  = {
+                type:'video',
+                title:'测试视频',
+                description:'测试',
+                mediaId:data.media_id,
+            }
+        } else if (content == 7){
+
+            var data = yield wechatApi.uploadMaterial('image',__dirname +'/images/2.jpg')
+
+            reply  = {
+                type:'music',
+                title:'测试音频',
+                description:'放松一下',
+                musicUrl:'',
+                thumbMediaId:data.media_id,
+            }
+        }
+
         this.body = reply;
     }
     yield next;

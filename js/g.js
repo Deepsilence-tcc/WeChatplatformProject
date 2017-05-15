@@ -46,6 +46,8 @@ module.exports = function (opts,handler) {
 
             var message = xmlUtil.formatMessage(content.xml);
 
+
+
             this.weixin = message;
 
             yield handler.call(this,next);

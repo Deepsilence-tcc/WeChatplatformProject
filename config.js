@@ -8,11 +8,15 @@ var util = require('./js/libs/util');
 
 var config = {
     wechat:{
-        appID:'wx6389b6489a68b700',
-        appSecret:'9485d99152e0a8267371f0c61a0e4e32',
+        // appID:'wx6389b6489a68b700',
+        // appSecret:'bbf9ad9cfa502c0d1ce492c0a73ee7cb',
+
+        appID:'wx664fdcbc3aa318c0',
+        appSecret:'d4624c36b6795d1d99dcf0547af5443d',
+
         token:'tcc0228zym',
         getAccessToken:function () {
-            return util.readFileAsync(wechat_file);
+            return util.readFileAsync(wechat_file,'utf-8');
         },
         saveAccessToken:function (data) {
             data = JSON.stringify(data);
