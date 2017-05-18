@@ -37,7 +37,7 @@ exports.reply = function* (next) {
             reply = '天下第一是大米'
         }else if (content=='2'){
             reply ='天下第二是豆腐'
-        }else if (content ==='4'){
+        }else if (content ==='3'){
             reply =[{
                 title:'技术改变世界',
                 description:'只是一个描述而已',
@@ -54,21 +54,22 @@ exports.reply = function* (next) {
         }else if (content == 5){
 
             var data = yield wechatApi.uploadMaterial('image',__dirname +'/images/2.jpg')
-            console.log(data)
+            console.log(data.body.media_id)
             reply  = {
                 type:'image',
-                mediaId:data.media_id,
+                mediaId:data.body.media_id,
             }
+
+            console.log(reply);
         }
         else if (content == 6){
-
             var data = yield wechatApi.uploadMaterial('image',__dirname +'/images/2.jpg')
 
             reply  = {
                 type:'video',
                 title:'测试视频',
                 description:'测试',
-                mediaId:data.media_id,
+                mediaId:data.body.media_id,
             }
         } else if (content == 7){
 

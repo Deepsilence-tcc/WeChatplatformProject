@@ -94,6 +94,12 @@ Wechat.prototype.uploadMaterial = function (type, filePath) {
 Wechat.prototype.fetchAccessToken = function () {
     var that = this;
 
+    // if(this.access_token&&this.expires_in){
+    //     if(this.isValidaAccessToken(this)){
+    //         return Promise.resolve(this);
+    //     }
+    // }
+
     return this.getAccessToken()
         .then(function (data) {
             try {
