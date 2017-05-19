@@ -52,12 +52,16 @@ exports.tpl = function (content,message) {
     if(Array.isArray(content)){
         type ="news"
     }
+    console.log(message)
+
     info.createTime = new Date().getTime();
 
-    info.msgType = type;
+    info.msgType = content.type==undefined?type:content.type;
     info.toUserName = fromUserName;
     info.fromUserName = toUserName;
     info.content = content;
+
+    console.log(info)
 
     return temp.compiled(info);
 }
